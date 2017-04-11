@@ -1,5 +1,12 @@
 const {ipcRenderer, desktopCapturer} = require('electron')
 
+const MILLISECONDS_IN_5_SECONDS = 5000
+
+// selectors
+let audioElement = document.querySelector('audio')
+let testButton = document.getElementById('test')
+
+// Get electron window
 desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
   if (error) throw error
   for (let i = 0; i < sources.length; ++i) {
@@ -13,26 +20,27 @@ desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
   }
 })
 
+// set audio element source to stream
 function handleStream (stream) {
-  document.querySelector('audio').src = URL.createObjectURL(stream)
+  audioElement.src = URL.createObjectURL(stream)
 }
 
 function handleError (e) {
   console.log(e)
 }
 
-let audioElement = document.querySelector('audio')
+// on listen event play or pause audio
 ipcRenderer.on('listen', (event, arg) => {
   if (arg) audioElement.play()
   else audioElement.pause()
 })
 
-let testButton = document.getElementById('test')
+// play audio to test mic within settings menu
 testButton.addEventListener('click', e => {
   if (audioElement.paused) {
     audioElement.play()
     setTimeout(function() {
       audioElement.pause()
-    }, 5000);
+    }, MILLISECONDS_IN_5_SECONDS);
   }
 })
