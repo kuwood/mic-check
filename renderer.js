@@ -21,8 +21,18 @@ function handleError (e) {
   console.log(e)
 }
 
+let audioElement = document.querySelector('audio')
 ipcRenderer.on('listen', (event, arg) => {
-  let audioElement = document.querySelector('audio')
   if (arg) audioElement.play()
   else audioElement.pause()
+})
+
+let testButton = document.getElementById('test')
+testButton.addEventListener('click', e => {
+  if (audioElement.paused) {
+    audioElement.play()
+    setTimeout(function() {
+      audioElement.pause()
+    }, 5000);
+  }
 })
