@@ -20,7 +20,14 @@ let willQuitApp = false
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   // create window
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    resizable: false,
+    show: false
+  })
+
+  // win.hide()
 
   // and load the index.html of the app.
   win.loadURL(url.format({
