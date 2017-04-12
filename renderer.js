@@ -22,7 +22,22 @@ desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
 
 // set audio element source to stream
 function handleStream (stream) {
-  audioElement.src = URL.createObjectURL(stream)
+  let ctx = new AudioContext()
+  let source = ctx.createMediaStreamSource(stream)
+  let dest = ctx.createMediaStreamDestination()
+  let gainNode = ctx.createGain()
+
+  source.connect(gainNode)
+  gainNode.connect(dest)
+  document.getElementById('volume').onchange = function() {
+      gainNode.gain.value = this.value // Any number between 0 and 1.
+  }
+  gainNode.gain.value = document.getElementById('volume').value
+
+  // // Store the source and destination in a global variable
+  // // to avoid losing the audio to garbage collection.
+  // window.leakMyAudioNodes = [source, dest]
+  audioElement.src = URL.createObjectURL(dest.stream)
 }
 
 function handleError (e) {
@@ -44,3 +59,6 @@ testButton.addEventListener('click', e => {
     }, MILLISECONDS_IN_5_SECONDS);
   }
 })
+
+ipcRenderer.send('initialHide')
+alert('WARNING: Use headphones to prevent audio feedback.')

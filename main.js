@@ -23,11 +23,8 @@ app.on('ready', () => {
   win = new BrowserWindow({
     width: 800,
     height: 600,
-    resizable: false,
-    show: false
+    resizable: false
   })
-
-  // win.hide()
 
   // and load the index.html of the app.
   win.loadURL(url.format({
@@ -61,16 +58,25 @@ app.on('ready', () => {
     {label: 'Quit', role: 'quit'}
   ])
 
-  tray.setToolTip('This is my application.')
-  
   // Call this again for Linux because we modified the context menu
   tray.setContextMenu(contextMenu)
+
+  tray.setToolTip(`Mic Check is not listening.`)
+  
+  function checkToolTip(label) {
+    if (label) tray.setToolTip(`Mic Check is listening.`)
+    else tray.setToolTip(`Mic Check is not listening.`)
+  }
 
   function sendListenState() {
     const listenLabelChecked = contextMenu.items[0].checked
     win.webContents.send('listen', listenLabelChecked)
+    checkToolTip(listenLabelChecked)
   }
 
+  ipcMain.on('initialHide', () => {
+    win.close()
+  })
 })
 
 // 'before-quit' is emitted when Electron receives 
