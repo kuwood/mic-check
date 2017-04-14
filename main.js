@@ -21,9 +21,10 @@ let willQuitApp = false
 app.on('ready', () => {
   // create window
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    resizable: false
+    width: 640,
+    height: 480,
+    resizable: false,
+    autoHideMenuBar: true
   })
 
   // and load the index.html of the app.
@@ -34,7 +35,7 @@ app.on('ready', () => {
   }))
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('close', (e) => {
