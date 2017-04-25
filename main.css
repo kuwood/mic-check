@@ -1,0 +1,102 @@
+body {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  font-family: arial;
+  color: #333;
+}
+
+section {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+div {
+  vertical-align: bottom;
+}
+
+label {
+  vertical-align: super;
+}
+
+#test{
+  background: #fff;
+  color: #333;
+  padding: 10px;
+  border: 2px solid #2375ff;
+  cursor: pointer;
+  border-radius: 5px;
+  font-family: arial;
+  font-size: 1.2em;
+}
+
+#test:hover {
+  background: #488cff
+}
+
+.table {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 0 0 5px 5px;
+  border-spacing: 0;
+}
+
+caption {
+  background: #2375ff;
+  padding: 10px;
+  border-radius: 5px 5px 0 0;
+  font-size: 1.5em;
+
+}
+
+td {
+  width: 50%;
+  padding: 5px;
+}
+
+.bind-cell:hover {
+  background: #888;
+  cursor: pointer;
+}
+
+tr:nth-child(odd) {
+  background-color: lightgrey;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 18px 0;
+  width: 100%;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animation: 0.2s;
+  box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
+  background: #2375ff;
+  border-radius: 1.3px;
+  border: 0.2px solid #333;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
+  border: 1px solid #333;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -14px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #2375ff;
+}

@@ -60,5 +60,5 @@ testButton.addEventListener('click', e => {
   }
 })
 
-ipcRenderer.send('initialHide')
-alert('WARNING: Use headphones to prevent audio feedback.')
+// ipcRenderer.send('initialHide')
+// alert('WARNING: Use headphones to prevent audio feedback.')
