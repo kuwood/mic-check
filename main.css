@@ -10,9 +10,9 @@ body {
 section {
   padding-bottom: 10px;
   margin-bottom: 10px;
-  flex-direction: row;
+  flex-direction: row-reverse;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-around;
 }
 
@@ -33,6 +33,7 @@ label {
   border-radius: 5px;
   font-family: arial;
   font-size: 1.2em;
+  width: 40%;
 }
 
 #test:hover {
@@ -70,7 +71,7 @@ tr:nth-child(odd) {
 
 input[type=range] {
   -webkit-appearance: none;
-  margin: 18px 0;
+  margin: 8px 0;
   width: 100%;
 }
 input[type=range]:focus {
@@ -81,21 +82,19 @@ input[type=range]::-webkit-slider-runnable-track {
   height: 8.4px;
   cursor: pointer;
   animation: 0.2s;
-  box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
   background: #2375ff;
-  border-radius: 1.3px;
-  border: 0.2px solid #333;
+  border-radius: 3px;
 }
 input[type=range]::-webkit-slider-thumb {
   box-shadow: 1px 1px 1px #333, 0px 0px 1px #333;
-  border: 1px solid #333;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
+  border: 1px solid #ddd;
+  height: 24px;
+  width: 24px;
+  border-radius: 20px;
   background: #ffffff;
   cursor: pointer;
   -webkit-appearance: none;
-  margin-top: -14px;
+  margin-top: -9px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
   background: #2375ff;
