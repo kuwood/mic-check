@@ -10,7 +10,7 @@ let testButton = document.getElementById('test')
 desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
   if (error) throw error
   for (let i = 0; i < sources.length; ++i) {
-    if (sources[i].name === 'Mic Check') {
+    if (sources[i].name === 'Mic Check: Settings') {
       navigator.webkitGetUserMedia({
         audio: true,
         video: false
@@ -26,13 +26,20 @@ function handleStream (stream) {
   let source = ctx.createMediaStreamSource(stream)
   let dest = ctx.createMediaStreamDestination()
   let gainNode = ctx.createGain()
+  let filter = ctx.createBiquadFilter()
 
-  source.connect(gainNode)
+  filter.Q.value = 3.50
+  filter.frequency.value = 355
+  filter.type = 'bandpass'
+
+  source.connect(filter)
+  filter.connect(gainNode)
   gainNode.connect(dest)
-  document.getElementById('volume').onchange = function() {
+
+  document.getElementById('gain').onchange = function() {
       gainNode.gain.value = this.value // Any number between 0 and 1.
   }
-  gainNode.gain.value = document.getElementById('volume').value
+  gainNode.gain.value = document.getElementById('gain').value
 
   // // Store the source and destination in a global variable
   // // to avoid losing the audio to garbage collection.

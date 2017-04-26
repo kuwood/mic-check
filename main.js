@@ -8,6 +8,8 @@ const {
 
 const path = require('path')
 const url = require('url')
+
+// live-reload for development
 require('electron-reload')(__dirname)
 
 // Keep a global reference of the window object, if you don't, the window will
