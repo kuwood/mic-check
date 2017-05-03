@@ -29,16 +29,19 @@ function handleStream (stream) {
   let gainNode = ctx.createGain()
   let filter = ctx.createBiquadFilter()
 
+  // filter settings
   filter.Q.value = 3.50
   filter.frequency.value = 355
   filter.type = 'bandpass'
 
+  // data flow
   source.connect(filter)
   filter.connect(gainNode)
   gainNode.connect(dest)
 
   document.getElementById('gain').onchange = function() {
-      gainNode.gain.value = this.value // Any number between 0 and 1.
+    // Any number between 0 and 1.
+    gainNode.gain.value = this.value
   }
   gainNode.gain.value = document.getElementById('gain').value
 
@@ -68,34 +71,44 @@ testButton.addEventListener('click', e => {
   }
 })
 
-listenBinding.addEventListener('click', e => {
+listenBinding.addEventListener('click', e => buildBinding('setListenBinding', listenBinding))
+
+// handles building the key binding
+function buildBinding(bindingEventString, element) {
+  console.log(bindingEventString, element)
+  window.addEventListener('keyup', endIfThree)
+  window.addEventListener('keydown', buildString)
   let bindingArr = []
+
+  // ends task if three keys are set
   function endIfThree() {
     if (bindingArr.length === 3) {
-      listenBinding.innerHTML = bindingArr.join(' + ')
-      ipcRenderer.send('setListenBinding', bindingArr.join('+'))
-      window.removeEventListener('keydown', buildString)
-      window.removeEventListener('keyup', endIfThree)
+      element.innerHTML = bindingArr.join(' + ')
+      ipcRenderer.send(bindingEventString, bindingArr.join('+'))
+      removeListeners()
     }
   }
-  window.addEventListener('keyup', endIfThree)
+
+  // removes event listeners
+  function removeListeners() {
+    window.removeEventListener('keydown', buildString)
+    window.removeEventListener('keyup', endIfThree)
+  }
+
+  // builds binding to maximum of 3 keys and ends task if enter or escape is pressed
   function buildString(event) {
     if (event.keyCode === 13 || event.keyCode === 27) {
-      ipcRenderer.send('setListenBinding', bindingArr.join('+'))
-      listenBinding.innerHTML = bindingArr.join(' + ')
-      window.removeEventListener('keydown', buildString)
-      window.removeEventListener('keyup', endIfThree)
+      ipcRenderer.send(bindingEventString, bindingArr.join('+'))
+      element.innerHTML = bindingArr.join(' + ')
+      removeListeners()
     } else if (bindingArr.length < 3) {
       bindingArr.push(event.key)
-      listenBinding.innerHTML = bindingArr.join(' + ')
+      element.innerHTML = bindingArr.join(' + ')
     } else {
-      ipcRenderer.send('setListenBinding', bindingArr.join('+'))
-      listenBinding.innerHTML = bindingArr.join(' + ')
-      window.removeEventListener('keydown', buildString)
+      console.log('error', event)
     }
   }
-  window.addEventListener('keydown', buildString)
-})
+}
 
 // ipcRenderer.send('initialHide')
 // alert('WARNING: Use headphones to prevent audio feedback.')
