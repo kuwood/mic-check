@@ -5,6 +5,7 @@ const MILLISECONDS_IN_5_SECONDS = 5000
 // selectors
 let audioElement = document.querySelector('audio')
 let testButton = document.getElementById('test')
+let listenBinding = document.getElementById('listen')
 
 // Get electron window
 desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
@@ -65,6 +66,35 @@ testButton.addEventListener('click', e => {
       audioElement.pause()
     }, MILLISECONDS_IN_5_SECONDS);
   }
+})
+
+listenBinding.addEventListener('click', e => {
+  let bindingArr = []
+  function endIfThree() {
+    if (bindingArr.length === 3) {
+      listenBinding.innerHTML = bindingArr.join(' + ')
+      ipcRenderer.send('setListenBinding', bindingArr.join('+'))
+      window.removeEventListener('keydown', buildString)
+      window.removeEventListener('keyup', endIfThree)
+    }
+  }
+  window.addEventListener('keyup', endIfThree)
+  function buildString(event) {
+    if (event.keyCode === 13 || event.keyCode === 27) {
+      ipcRenderer.send('setListenBinding', bindingArr.join('+'))
+      listenBinding.innerHTML = bindingArr.join(' + ')
+      window.removeEventListener('keydown', buildString)
+      window.removeEventListener('keyup', endIfThree)
+    } else if (bindingArr.length < 3) {
+      bindingArr.push(event.key)
+      listenBinding.innerHTML = bindingArr.join(' + ')
+    } else {
+      ipcRenderer.send('setListenBinding', bindingArr.join('+'))
+      listenBinding.innerHTML = bindingArr.join(' + ')
+      window.removeEventListener('keydown', buildString)
+    }
+  }
+  window.addEventListener('keydown', buildString)
 })
 
 // ipcRenderer.send('initialHide')
