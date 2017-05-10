@@ -6,6 +6,7 @@ const MILLISECONDS_IN_5_SECONDS = 5000
 let audioElement = document.querySelector('audio')
 let testButton = document.getElementById('test')
 let listenBinding = document.getElementById('listen')
+let switchCheckbox = document.getElementById('switch-checkbox')
 
 // Get electron window
 desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
@@ -71,7 +72,9 @@ testButton.addEventListener('click', e => {
   }
 })
 
+// listeners
 listenBinding.addEventListener('click', e => buildBinding('setListenBinding', listenBinding))
+switchCheckbox.addEventListener('click', e => console.log(e.srcElement.checked))
 
 // handles building the key binding
 function buildBinding(bindingEventString, element) {
