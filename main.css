@@ -16,10 +16,6 @@ section {
   justify-content: space-around;
 }
 
-div {
-  vertical-align: bottom;
-}
-
 label {
   vertical-align: super;
 }
@@ -33,7 +29,6 @@ label {
   border-radius: 5px;
   font-family: arial;
   font-size: 1.2em;
-  width: 40%;
 }
 
 #test:hover {
@@ -100,13 +95,18 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   background: #2375ff;
 }
 
+.control-label {
+  position: relative;
+  top: -22px;
+}
+
  /* The switch - the box around the slider */
 .switch {
   position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-  top: 6px;
+  display: flex;
+  width: 50px;
+  height: 22px;
+  top: 22px;
 }
 
 /* Hide default HTML checkbox */
@@ -127,10 +127,10 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+  height: 16px;
+  width: 16px;
   left: 4px;
-  bottom: 4px;
+  bottom: 3px;
   background-color: white;
   transition: .4s;
 }
@@ -149,7 +149,7 @@ input:checked + .slider:before {
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 34px;
+  border-radius: 24px;
 }
 
 .slider.round:before {
