@@ -21,7 +21,7 @@ desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
     }
   }
 })
-// TODO: add parameter linked to global linked to switch state. if false remove filter from data flow
+
 // set audio element source to stream
 function handleStream (stream) {
   let ctx = new AudioContext()
@@ -65,9 +65,9 @@ function handleStream (stream) {
   }
   gainNode.gain.value = document.getElementById('gain').value
 
-  // // Store the source and destination in a global variable
-  // // to avoid losing the audio to garbage collection.
-  window.leakMyAudioNodes = [source, dest]
+  // Store the source and destination in a global variable
+  // to avoid losing the audio to garbage collection.
+  // window.leakMyAudioNodes = [source, dest]
   audioElement.src = URL.createObjectURL(dest.stream)
 }
 
