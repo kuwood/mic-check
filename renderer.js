@@ -21,7 +21,7 @@ desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
     }
   }
 })
-
+// TODO: add parameter linked to global linked to switch state. if false remove filter from data flow
 // set audio element source to stream
 function handleStream (stream) {
   let ctx = new AudioContext()
@@ -35,10 +35,29 @@ function handleStream (stream) {
   filter.frequency.value = 355
   filter.type = 'bandpass'
 
-  // data flow
-  source.connect(filter)
-  filter.connect(gainNode)
+  // initial data flow
+  source.connect(gainNode)
   gainNode.connect(dest)
+
+  // handle filter switch
+  switchCheckbox.onchange = function() {
+    console.log(this.checked)
+    if (this.checked) {
+      source.disconnect()
+      gainNode.disconnect()
+
+      source.connect(filter)
+      filter.connect(gainNode)
+      gainNode.connect(dest)
+    } else {
+      source.disconnect()
+      filter.disconnect()
+      gainNode.disconnect()
+
+      source.connect(gainNode)
+      gainNode.connect(dest)
+    }
+  }
 
   document.getElementById('gain').onchange = function() {
     // Any number between 0 and 1.
@@ -48,7 +67,7 @@ function handleStream (stream) {
 
   // // Store the source and destination in a global variable
   // // to avoid losing the audio to garbage collection.
-  // window.leakMyAudioNodes = [source, dest]
+  window.leakMyAudioNodes = [source, dest]
   audioElement.src = URL.createObjectURL(dest.stream)
 }
 
@@ -74,7 +93,6 @@ testButton.addEventListener('click', e => {
 
 // listeners
 listenBinding.addEventListener('click', e => buildBinding('setListenBinding', listenBinding))
-switchCheckbox.addEventListener('click', e => console.log(e.srcElement.checked))
 
 // handles building the key binding
 function buildBinding(bindingEventString, element) {
