@@ -103,10 +103,18 @@ app.on('ready', () => {
     checkToolTip(listenLabelChecked)
   }
 
+  function sendIncreaseGain() {
+    win.webContents.send('increaseGain')
+  }
+
+  function sendDecreaseGain() {
+    win.webContents.send('decreaseGain')
+  }
+
   bindings = {
-    'listen': 'CommandOrControl+Shift+]',
-    'increaseGain': '',
-    'decreaseGain': '',
+    'listen': 'CommandOrControl+Shift+"',
+    'increaseGain': 'CommandOrControl+Shift+}',
+    'decreaseGain': 'CommandOrControl+Shift+{',
   }
 
   ipcMain.on('setListenBinding', (event, keys) => {
@@ -116,6 +124,24 @@ app.on('ready', () => {
       bindings.listen = keys
       handleListenBind()
       sendListenState()
+    })
+  })
+
+  ipcMain.on('setIncreaseGainBinding', (event, keys) => {
+    console.log(keys)
+    globalShortcut.unregister(bindings.increaseGain)
+    globalShortcut.register(keys, () => {
+      bindings.increaseGain = keys
+      sendIncreaseGain()
+    })
+  })
+
+  ipcMain.on('setDecreaseGainBinding', (event, keys) => {
+    console.log(keys)
+    globalShortcut.unregister(bindings.decreaseGain)
+    globalShortcut.register(keys, () => {
+      bindings.decreaseGain = keys
+      sendDecreaseGain()
     })
   })
 
@@ -130,6 +156,16 @@ app.on('ready', () => {
   globalShortcut.register(bindings.listen, () => {
     handleListenBind()
     sendListenState()
+  })
+
+  globalShortcut.register(bindings.increaseGain, () => {
+    console.log('increase pressed')
+    sendIncreaseGain()
+  })
+
+  globalShortcut.register(bindings.decreaseGain, () => {
+    console.log('decrease pressed')
+    sendDecreaseGain()
   })
 
   ipcMain.on('initialHide', () => {

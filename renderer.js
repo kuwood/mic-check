@@ -6,7 +6,10 @@ const MILLISECONDS_IN_5_SECONDS = 5000
 let audioElement = document.querySelector('audio')
 let testButton = document.getElementById('test')
 let listenBinding = document.getElementById('listen')
+let increaseGainBinding = document.getElementById('increaseGain')
+let decreaseGainBinding = document.getElementById('decreaseGain')
 let switchCheckbox = document.getElementById('switch-checkbox')
+let gainSelector = document.getElementById('gain')
 
 // Get electron window
 desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
@@ -59,11 +62,11 @@ function handleStream (stream) {
     }
   }
 
-  document.getElementById('gain').onchange = function() {
+  gainSelector.onchange = function() {
     // Any number between 0 and 1.
     gainNode.gain.value = this.value
   }
-  gainNode.gain.value = document.getElementById('gain').value
+  gainNode.gain.value = gainSelector.value
 
   // Store the source and destination in a global variable
   // to avoid losing the audio to garbage collection.
@@ -81,6 +84,18 @@ ipcRenderer.on('listen', (event, arg) => {
   else audioElement.pause()
 })
 
+ipcRenderer.on('increaseGain', (event, arg) => {
+  const newValue = parseFloat(gainSelector.value) + 0.05
+  gainSelector.value = newValue
+  gainSelector.onchange()
+})
+
+ipcRenderer.on('decreaseGain', (event, arg) => {
+  const newValue = parseFloat(gainSelector.value) - 0.05
+  gainSelector.value = newValue
+  gainSelector.onchange()
+})
+
 // play audio to test mic within settings menu
 testButton.addEventListener('click', e => {
   if (audioElement.paused) {
@@ -93,6 +108,8 @@ testButton.addEventListener('click', e => {
 
 // listeners
 listenBinding.addEventListener('click', e => buildBinding('setListenBinding', listenBinding))
+increaseGainBinding.addEventListener('click', e => buildBinding('increaseGainBinding', increaseGainBinding))
+decreaseGainBinding.addEventListener('click', e => buildBinding('decreaseGainBinding', decreaseGainBinding))
 
 // handles building the key binding
 function buildBinding(bindingEventString, element) {
