@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
+    "build": "rimraf mic-check && electron-packager . --platform=darwin,win32,linux --arch=x64 --icon=app",
+    "build-overwrite": "rimraf mic-check && electron-packager . --platform=darwin,win32,linux --arch=x64 --icon=app --overwrite",
     "start": "electron ."
   },
   "license": "MIT",
   "devDependencies": {
     "electron": "^1.6.2",
-    "electron-reload": "^1.1.0"
+    "electron-packager": "^8.7.0",
+    "electron-reload": "^1.1.0",
+    "rimraf": "^2.6.1"
   },
   "dependencies": {}
 }

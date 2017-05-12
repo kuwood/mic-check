@@ -8,19 +8,30 @@ const {
 } = require('electron')
 
 const path = require('path')
+const platform = require('os').platform()
 const url = require('url')
 
 // live-reload for development
-require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-  hardResetMethod: 'exit',
-})
+// require('electron-reload')(__dirname, {
+//   electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+//   hardResetMethod: 'exit',
+// })
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 let tray = null
 let willQuitApp = false
+let trayImage
+
+// Determine tray icon by platform
+// Determine appropriate icon for platform
+if (platform == 'darwin' || 'linux') {
+    trayImage = __dirname + '/app.png'
+}
+else if (platform == 'win32') {
+    trayImage = __dirname + '/app.ico'
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -31,7 +42,8 @@ app.on('ready', () => {
     width: 600,
     height: 230,
     resizable: false,
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    icon: trayImage,
   })
 
   // and load the index.html of the app.
@@ -59,7 +71,7 @@ app.on('ready', () => {
   })
 
   // set up the tray
-  tray = new Tray('/home/kuwood/projects/mic-check/icon.png')
+  tray = new Tray(trayImage)
   const contextMenu = Menu.buildFromTemplate([{
       label: 'Listen',
       type: 'checkbox',
