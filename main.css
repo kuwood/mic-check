@@ -7,6 +7,10 @@ body {
   color: #333;
 }
 
+tr, label, button {
+  font-size: 18px;
+}
+
 section {
   padding-bottom: 10px;
   margin-bottom: 10px;
@@ -28,7 +32,6 @@ label {
   cursor: pointer;
   border-radius: 5px;
   font-family: arial;
-  font-size: 1.2em;
 }
 
 #test:hover {
@@ -46,7 +49,7 @@ caption {
   background: #2375ff;
   padding: 10px;
   border-radius: 5px 5px 0 0;
-  font-size: 1.5em;
+  font-size: 24px;
 
 }
 
