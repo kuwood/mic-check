@@ -40,7 +40,7 @@ app.on('ready', () => {
   // create window
   win = new BrowserWindow({
     width: 600,
-    height: 230,
+    height: 242,
     resizable: false,
     autoHideMenuBar: true,
     icon: trayImage,
