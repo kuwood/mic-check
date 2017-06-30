@@ -3,13 +3,13 @@ const {ipcRenderer, desktopCapturer} = require('electron')
 const MILLISECONDS_IN_5_SECONDS = 5000
 
 // selectors
-let audioElement = document.querySelector('audio')
-let testButton = document.getElementById('test')
-let listenBinding = document.getElementById('listen')
-let increaseGainBinding = document.getElementById('increaseGain')
-let decreaseGainBinding = document.getElementById('decreaseGain')
-let switchCheckbox = document.getElementById('switch-checkbox')
-let gainSelector = document.getElementById('gain')
+const audioElement = document.querySelector('audio')
+const testButton = document.getElementById('test')
+const listenBinding = document.getElementById('listen')
+const increaseGainBinding = document.getElementById('increaseGain')
+const decreaseGainBinding = document.getElementById('decreaseGain')
+const switchCheckbox = document.getElementById('switch-checkbox')
+const gainSelector = document.getElementById('gain')
 
 // Get electron window
 desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
@@ -27,11 +27,11 @@ desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
 
 // set audio element source to stream
 function handleStream (stream) {
-  let ctx = new AudioContext()
-  let source = ctx.createMediaStreamSource(stream)
-  let dest = ctx.createMediaStreamDestination()
-  let gainNode = ctx.createGain()
-  let filter = ctx.createBiquadFilter()
+  const ctx = new AudioContext()
+  const source = ctx.createMediaStreamSource(stream)
+  const dest = ctx.createMediaStreamDestination()
+  const gainNode = ctx.createGain()
+  const filter = ctx.createBiquadFilter()
 
   // filter settings
   filter.Q.value = 3.50
